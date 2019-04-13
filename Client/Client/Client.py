@@ -3,11 +3,14 @@ import socket
 serverName = 'localhost'
 port = 12000
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((serverName, port))
+    while True:
+        request = input("Type your server request here or type quit to quit: ")
+        if (request == "quit"):
+            break
+        s.sendall(str.encode(request))
+        response = s.recv(1024).decode()
+        print('Pergjigja: ', repr(response))
 
-s.connect((serverName, port))
-var = input("Ju lutem shenoni nje fjali: ")
-s.sendall(str.encode(var))
-r = s.recv(1024).decode()
-s.close()
-print('Te dhenat e pranuara nga serveri', repr(r))
+

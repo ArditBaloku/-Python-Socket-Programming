@@ -1,20 +1,37 @@
 import socket
 
-serverPort = 12000
 serverName = 'localhost'
-serverSocket = socket.socket(AF_INET, SOCK_STREAM)
+port = 12000
 
-serverSocket.bind((serverName, serverPort))
-print('Serveri eshte startuar ne localhost: ' + str(serverPort))
-serverSocket.listen(5)
-print('Serveri eshte i gatshem te pranoj kerkesa')
+#def bashketingllore(message):
+#    bashketinglloret = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
+#    numri = 0
+#    message1 = str(message).upper
+#    for i in range(0, len(message)-16):
+#        if(message[i+16] in bashketinglloret):
+#            ++numri
+#    return str(numri)
 
-while 1:
-    connectSocket, addr = serverSocket.accept()
-    print('Klienti eshte lidhur ne server %s me port %s' % addr)
-    fjalia = connectSocket.recv(1200)
-    fjaliaM = fjalia.upper()
-    print(fjaliaM)
-    connectSocket.send(fjaliaM)
-    connectSocket.close()
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((serverName, port))
+    s.listen(5)
+    print("Server is ready to accept requests")
+    connectSocket, addr = s.accept()
+    with connectSocket:
+        print('Connected by %s on port %s' % addr)
+        while True:
+            data = connectSocket.recv(1024).decode()
+            request = data.split()
+            response = ""
+            if not data:
+                break
+            elif request[0] == "IPADRESA":
+                response = "Ip adresa juaj eshte %s" % addr[0]
+            elif request[0] == "NUMRIIPORTIT":
+                response = "Porti juaj eshte %s" % addr[1]
+            #elif request[0] == "BASHKETINGLLORE":
+            #    response = bashketingllore(request)
+            else:
+                response = "Invalid request"
+            connectSocket.sendall(bytes(str.encode(response)))
 
