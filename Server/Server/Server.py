@@ -75,6 +75,29 @@ def konvertimi (type, number):
         else:
             return "Konvertimi i kerkuar nuk ekziston"
 
+def totient(n):
+     try:
+        n = int(n)
+        if (n<0):
+            return "Keni dhene numer negativ"
+     except:
+        return "Nuk keni dhene numer te plote"
+     x = 0
+     for i in range (1, n):
+         if(math.gcd(n,i) == 1):
+             x += 1
+     return "Numri i numrave me te vegjel dhe relativisht te thjeshte me %d eshte %d" %(n, x)
+
+def pitagora(a, b):
+    try:
+        a = float(a)
+        b = float(b)
+    except:
+        return "Argumentet e dhena nuk jane numra"
+    if(a<0 or b<0):
+            return "Keni japur brinje negative"
+    return str(math.pow(a,2) + math.pow(b,2))
+
 def is_number(s):
     try:
         float(s)
@@ -114,6 +137,10 @@ with socket(AF_INET, SOCK_STREAM) as s:
                     response = str(fibonacci(request[1]))
                 elif request[0] == "KONVERTIMI":
                     response = str(konvertimi(request[1], request[2]))
+                elif request[0] == "TOTIENT":
+                    response = totient(request[1])
+                elif request[0] == "PITAGORA":
+                    response = pitagora(request[1], request[2])
                 else:
                     response = "Kerkese invalide"
                 connectSocket.sendall(bytes(str.encode(response)))
