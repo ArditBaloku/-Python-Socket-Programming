@@ -1,9 +1,7 @@
 from socket import *
 from datetime import *
 from numpy import *
-
-serverName = 'localhost'
-port = 12000
+from _thread import *
 
 def ipAdresa():
     return "Ip adresa juaj eshte %s" % addr[0]
@@ -105,45 +103,56 @@ def is_number(s):
     except ValueError:
         return False
 
-with socket(AF_INET, SOCK_STREAM) as s:
-    s.bind((serverName, port))
-    s.listen(5)
-    print("Serveri eshte i gatshem te pranoj kerkesa")
-    connectSocket, addr = s.accept()
-    with connectSocket:
-        print('Lidhur nga %s ne portin %s' % addr)
-        while True:
-            try:
-                data = connectSocket.recv(1024).decode()
-                request = data.split()
-                response = ""
-                if not data:
-                    break
-                elif request[0] == "IPADRESA":
-                    response = ipAdresa()
-                elif request[0] == "NUMRIIPORTIT":
-                    response = porti()
-                elif request[0] == "BASHKETINGLLORE":
-                    response = bashketingllore(request)
-                elif request[0] == "PRINTIMI":
-                    response = printimi(request)
-                elif request[0] == "EMRIIKOMPJUTERIT":
-                    response = emri_i_kompjuterit()
-                elif request[0] == "KOHA":
-                    response = koha()
-                elif request[0] == "LOJA":
-                    response = loja()
-                elif request[0] == "FIBONACCI":
-                    response = str(fibonacci(request[1]))
-                elif request[0] == "KONVERTIMI":
-                    response = str(konvertimi(request[1], request[2]))
-                elif request[0] == "TOTIENT":
-                    response = totient(request[1])
-                elif request[0] == "PITAGORA":
-                    response = pitagora(request[1], request[2])
-                else:
-                    response = "Kerkese invalide"
-                connectSocket.sendall(bytes(str.encode(response)))
-            except:
-                connectSocket.sendall(str.encode("Ka ndodhur nje gabim, ju lutem provoni perseri"))
+def handle_request(data, conn):
+    request = data.split()
+    response = ""
+    if request[0] == "IPADRESA":
+        response = ipAdresa()
+    elif request[0] == "NUMRIIPORTIT":
+        response = porti()
+    elif request[0] == "BASHKETINGLLORE":
+        response = bashketingllore(request)
+    elif request[0] == "PRINTIMI":
+        response = printimi(request)
+    elif request[0] == "EMRIIKOMPJUTERIT":
+        response = emri_i_kompjuterit()
+    elif request[0] == "KOHA":
+        response = koha()
+    elif request[0] == "LOJA":
+        response = loja()
+    elif request[0] == "FIBONACCI":
+        response = str(fibonacci(request[1]))
+    elif request[0] == "KONVERTIMI":
+        response = str(konvertimi(request[1], request[2]))
+    elif request[0] == "TOTIENT":
+        response = totient(request[1])
+    elif request[0] == "PITAGORA":
+        response = pitagora(request[1], request[2])
+    else:
+        response = "Kerkese invalide"
+    conn.sendall(bytes(str.encode(response)))
+    
+def client_thread(conn):
+    while True:
+        data = conn.recv(128).decode()
+        if not data:
+            break
+        handle_request(data, conn)
+
+host = 'localhost'
+port = 12000
+s = socket(AF_INET, SOCK_STREAM)
+
+s.bind((host, port))
+s.listen(5)
+print("Serveri eshte gati per kerkesa")
+
+
+
+while True:
+    conn, addr = s.accept()
+    print("Lidhur me " + addr[0] + ":" + str(addr[1]))
+    start_new_thread(client_thread, (conn,))
+
+s.close()
 
