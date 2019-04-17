@@ -104,3 +104,11 @@ venv.bak/
 .mypy_cache/
 Server/.vs/Server/v15/.suo
 Client/.vs/Client/v15/.suo
+FIEK-UDP Server/.vs/FIEK-UDP Server/v15/.suo
+Client/.vs/FIEK-TCP Client/v15/.suo
+FIEK-UDP Client/.vs/FIEK-UDP Client/v15/.suo
+Server/.vs/FIEK-TCP Server/v15/.suo
+Server/.vs/Server/v15/.suo
+FIEK-TCP Client/.vs/FIEK-TCP Client/v15/.suo
+FIEK-TCP Server/.vs/FIEK-TCP Server/v15/.suo
+Client/.vs/Client/v15/.suo

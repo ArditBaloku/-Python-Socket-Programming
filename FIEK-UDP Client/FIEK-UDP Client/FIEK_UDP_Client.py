@@ -7,19 +7,26 @@ if (serverName == ''):
 if (port == ''):
     port = 12000
 else:
-    port = int(port)
+    try:
+        port = int(port)
+    except:
+        print("Nuk keni japur numer valid per port")
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+addr = (serverName, port)
+
+with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
     s.connect((serverName, port))
     while True:
         try:
-            request = input("Type your server request here or type quit to quit: ")
+            request = input("Shenoni kerkesen per serverin apo shenoni quit per te dal nga programi: ")
             if (request == "quit"):
                 break
-            s.sendall(str.encode(request))
-            response = s.recv(1024).decode()
+            s.sendto(str.encode(request), addr)
+            response = s.recvfrom(128)
+            response = response[0].decode()
             print('Pergjigja: ', repr(response))
         except:
             print("Ka ndodhur nje gabim, ju lutem provoni perseri")
+
 
 

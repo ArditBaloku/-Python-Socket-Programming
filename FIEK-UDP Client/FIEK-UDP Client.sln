@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Server", "Server\Server.pyproj", "{C6FC4077-3DEC-4410-8353-947F51E24E58}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "FIEK-UDP Client", "FIEK-UDP Client\FIEK-UDP Client.pyproj", "{BCAC7D06-7F49-4E8E-A309-85A561531EF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +11,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6FC4077-3DEC-4410-8353-947F51E24E58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6FC4077-3DEC-4410-8353-947F51E24E58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCAC7D06-7F49-4E8E-A309-85A561531EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCAC7D06-7F49-4E8E-A309-85A561531EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CF6E0143-5C15-4A69-8C3C-D2D56B166F82}
+		SolutionGuid = {38F1447B-5F0A-470A-ABE3-8795E60764DE}
 	EndGlobalSection
 EndGlobal
