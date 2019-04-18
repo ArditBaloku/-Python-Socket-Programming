@@ -104,33 +104,37 @@ def is_number(s):
         return False
 
 def handle_request(data, conn):
-    request = data.split()
-    response = ""
-    if request[0] == "IPADRESA":
-        response = ipAdresa()
-    elif request[0] == "NUMRIIPORTIT":
-        response = porti()
-    elif request[0] == "BASHKETINGLLORE":
-        response = bashketingllore(request)
-    elif request[0] == "PRINTIMI":
-        response = printimi(request)
-    elif request[0] == "EMRIIKOMPJUTERIT":
-        response = emri_i_kompjuterit()
-    elif request[0] == "KOHA":
-        response = koha()
-    elif request[0] == "LOJA":
-        response = loja()
-    elif request[0] == "FIBONACCI":
-        response = str(fibonacci(request[1]))
-    elif request[0] == "KONVERTIMI":
-        response = str(konvertimi(request[1], request[2]))
-    elif request[0] == "TOTIENT":
-        response = totient(request[1])
-    elif request[0] == "PITAGORA":
-        response = pitagora(request[1], request[2])
-    else:
-        response = "Kerkese invalide"
-    conn.sendall(bytes(str.encode(response)))
+    try:
+        request = data.split()
+        response = ""
+        if request[0] == "IPADRESA":
+            response = ipAdresa()
+        elif request[0] == "NUMRIIPORTIT":
+            response = porti()
+        elif request[0] == "BASHKETINGLLORE":
+            response = bashketingllore(request)
+        elif request[0] == "PRINTIMI":
+            response = printimi(request)
+        elif request[0] == "EMRIIKOMPJUTERIT":
+            response = emri_i_kompjuterit()
+        elif request[0] == "KOHA":
+            response = koha()
+        elif request[0] == "LOJA":
+            response = loja()
+        elif request[0] == "FIBONACCI":
+            response = str(fibonacci(request[1]))
+        elif request[0] == "KONVERTIMI":
+            response = str(konvertimi(request[1], request[2]))
+        elif request[0] == "TOTIENT":
+            response = totient(request[1])
+        elif request[0] == "PITAGORA":
+            response = pitagora(request[1], request[2])
+        else:
+            response = "Kerkese invalide"
+        conn.sendall(str.encode(response))
+    except:
+        response = "Ka ndodhur nje gabim, provoni perseri"
+        conn.sendall(str.encode(response))
     
 def client_thread(conn):
     while True:
@@ -138,6 +142,7 @@ def client_thread(conn):
         if not data:
             break
         handle_request(data, conn)
+    conn.close()
 
 host = 'localhost'
 port = 12000
